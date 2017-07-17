@@ -27,4 +27,4 @@ I'll also (sorry) wax philosophical and humanitastic, because that's me. For the
 
 One last warning: You'll probably get to know me best through my strong desire to randomly link you to <a href="https://www.youtube.com/watch?v=9UrKcfh43zM" target="_blank">my favorite internet gems</a>. So, <a href="https://www.youtube.com/watch?v=8AhZFUFyyiI" target="_blank">for like, no reason</a>, a nod to <a href="https://www.waitbutwhy.com" target="_blank">this post's namesake</a>.
 
-So that's it. Except to say: Hello, world.
+So that's it. Except to say: Hello, world. <!--BOO!-->
