@@ -1,3 +1,8 @@
 # mysite
 code blog
-doop doop doop
+
+directories deleted:
+  layouts/
+  static/
+  data/
+  
