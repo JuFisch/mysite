@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Julie Fischer</title>
+    <link>https://julie.fischey-rando.com/</link>
+    <description>Recent content on Julie Fischer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 Jul 2017 14:14:44 -0400</lastBuildDate>
+    
+	<atom:link href="https://julie.fischey-rando.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Wait But Why?</title>
+      <link>https://julie.fischey-rando.com/post/wait-but-why/</link>
+      <pubDate>Mon, 17 Jul 2017 14:14:44 -0400</pubDate>
+      
+      <guid>https://julie.fischey-rando.com/post/wait-but-why/</guid>
+      <description>My workplace generously allowed me to take some personal-leave time after a rough &amp;amp; tumble start to 2017. I&amp;rsquo;ll use the time to go Fully Concentrated on learning to program, something I&amp;rsquo;ve been exploring very-part-time for about a year.
+That seems fine. Except, oh wait, why?
+No one who looked into my humanities-riddled education would likely suggest I take up computer programming as a natural fit. But spending the last few years in tech, I’ve come to a conclusion about myself:</description>
+    </item>
+    
+  </channel>
+</rss>
