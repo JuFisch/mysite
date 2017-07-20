@@ -6,10 +6,21 @@
     <description>Recent content on Julie Fischer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Jul 2017 14:14:44 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 20 Jul 2017 16:49:10 -0400</lastBuildDate>
     
 	<atom:link href="https://julie.fischey-rando.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Push Notification Server: Part 01</title>
+      <link>https://julie.fischey-rando.com/post/pushie-server-01/</link>
+      <pubDate>Thu, 20 Jul 2017 16:49:10 -0400</pubDate>
+      
+      <guid>https://julie.fischey-rando.com/post/pushie-server-01/</guid>
+      <description>My first portfolio project is a real-time push notification server, written in Golang. It&amp;rsquo;s modeled on the Node.js project by Beejeebus. And as luck would have it, I&amp;rsquo;m married to Beejeebus! (Yay!) So while this is probably more of an advanced project, I have a live-in mentor and occassional responsive rubber duck kindly supporting me on this one.
+Basic Concept
+To get started, I had to understand what exactly Pushie does and how it works.</description>
+    </item>
     
     <item>
       <title>Wait But Why?</title>

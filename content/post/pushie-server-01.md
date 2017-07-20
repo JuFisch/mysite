@@ -1,7 +1,6 @@
 ---
 title: "Push Notification Server: Part 01"
-date: 2017-07-19T15:05:08-04:00
-draft: true
+date: 2017-07-20T16:49:10-04:00
 ---
 
 My first portfolio project is a real-time push notification server, written in Golang. It's modeled on the Node.js project by Beejeebus. And as luck would have it, I'm married to Beejeebus! (Yay!) So while this is probably more of an advanced project, I have a live-in mentor and occassional responsive rubber duck kindly supporting me on this one.

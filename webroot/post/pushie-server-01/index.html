@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Julie Fischer">
+
+<meta name="generator" content="Hugo 0.25.1" />
+<title>Push Notification Server: Part 01</title>
+<link rel="shortcut icon" href="https://julie.fischey-rando.com/images/favicon.ico">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/style.css">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://julie.fischey-rando.com/index.xml" rel="alternate" type="application/rss+xml" title="Julie Fischer" />
+
+
+<meta property="og:title" content="Push Notification Server: Part 01" />
+<meta property="og:description" content="My first portfolio project is a real-time push notification server, written in Golang. It&rsquo;s modeled on the Node.js project by Beejeebus. And as luck would have it, I&rsquo;m married to Beejeebus! (Yay!) So while this is probably more of an advanced project, I have a live-in mentor and occassional responsive rubber duck kindly supporting me on this one.
+Basic Concept
+To get started, I had to understand what exactly Pushie does and how it works." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://julie.fischey-rando.com/post/pushie-server-01/" />
+
+
+
+<meta property="article:published_time" content="2017-07-20T16:49:10-04:00"/>
+<meta property="article:modified_time" content="2017-07-20T16:49:10-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Push Notification Server: Part 01">
+<meta itemprop="description" content="My first portfolio project is a real-time push notification server, written in Golang. It&rsquo;s modeled on the Node.js project by Beejeebus. And as luck would have it, I&rsquo;m married to Beejeebus! (Yay!) So while this is probably more of an advanced project, I have a live-in mentor and occassional responsive rubber duck kindly supporting me on this one.
+Basic Concept
+To get started, I had to understand what exactly Pushie does and how it works.">
+
+
+<meta itemprop="dateModified" content="2017-07-20T16:49:10-04:00" />
+<meta itemprop="wordCount" content="1582">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:text:title" content="Push Notification Server: Part 01"/>
+<meta name="twitter:title" content="Push Notification Server: Part 01"/>
+<meta name="twitter:description" content="My first portfolio project is a real-time push notification server, written in Golang. It&rsquo;s modeled on the Node.js project by Beejeebus. And as luck would have it, I&rsquo;m married to Beejeebus! (Yay!) So while this is probably more of an advanced project, I have a live-in mentor and occassional responsive rubber duck kindly supporting me on this one.
+Basic Concept
+To get started, I had to understand what exactly Pushie does and how it works."/>
+<meta name="twitter:site" content="@https://www.twitter.com/jufisch"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://julie.fischey-rando.com/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+
+	
+		<a class="cta" href="https://julie.fischey-rando.com/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Push Notification Server: Part 01</h1>
+        <h2 class="headline">
+        July 20, 2017
+        <br>
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>My first portfolio project is a real-time push notification server, written in Golang. It&rsquo;s modeled on the Node.js project by Beejeebus. And as luck would have it, I&rsquo;m married to Beejeebus! (Yay!) So while this is probably more of an advanced project, I have a live-in mentor and occassional responsive rubber duck kindly supporting me on this one.</p>
+
+<p><b>Basic Concept</b></p>
+
+<p>To get started, I had to understand what exactly Pushie does and how it works. Here&rsquo;s a quick sketch that helps lay it out:</p>
+
+<p><img src="/img/pushie_overview.jpg" alt="This is an image" /></p>
+
+<p>Pushie sits between the client (let&rsquo;s call it a web browser) and the server (let&rsquo;s call it a web app). The goal is to enable real-time notifications to be received by the client from the web app. Real-time here means non-persistent, so messages sent to a particular client aren&rsquo;t saved for later - if the client isn&rsquo;t around at the moment, the messages get dropped.</p>
+
+<p>Notice how Pushie is (affectionately) labeled as &ldquo;DUMB&rdquo; in the diagram? That&rsquo;s because Pushie doesn&rsquo;t know much about anything, and that&rsquo;s how we want it, because the Web App is smart. The Web App knows who (i.e. which clients) are known and allowed to access Pushie messages. It also knows <em>which</em> Pushie messages a client will see based on which channels they have access to and are currently &lsquo;logged in&rsquo; to. All Pushie has to do is ask questions.</p>
+
+<p>When a client reaches out to Pushie to ask to see messages (via some javascript in the browser, probably), Pushie looks at them and says, &ldquo;Hey, Web App, is this person allowed to connect?&rdquo; The Web App tells Pushie yes or no based on earlier actions between the Client and the Web App (imagine signing up for Slack, you identify yourself for the Web App so it can allow you to connect). If Web App says no, the connection to the client is closed. If Web App says <em>yes</em>, it also tells Pushie which channels this user is allowed to see. Pushie now knows this user is currently logged in on their available channels.</p>
+
+<p>Now Pushie can perform its core feature as a <em>push notification</em> server. When messages come in from Web App for channels the client is in, Pushie automatically pushes the message down to the client. Whee!</p>
+
+<p><b>Server Routing</b></p>
+
+<p>Pushie is a server. Writing a basic server in Go is really easy, so I was able to quickly move on to figuring out how that server should behave in more detail. To do that, I&rsquo;m using the <a href="https://github.com/gorilla/mux" target="_blank">Gorilla Mux</a> URL router library.</p>
+
+<p>Pushie has to be capable of all sorts of actions, not just sending messages. It needs to:</p>
+
+<ul>
+<li> add and remove users from channels</li>
+<li> log users out, or kick them out</li>
+<li> add and remove whole channels, and check their health</li>
+<li> handle authentication tokens</li>
+<li> right, also publish messages</li>
+</ul>
+
+<p>You can do that by establishing a unique url route for each action you need to take, and telling Pushie to run some code when reading Web App messages from that URL.</p>
+
+<p>Here&rsquo;s my router function using Gorilla Mux:</p>
+
+<pre><code>func main() {
+
+  r := mux.NewRouter()
+
+  r.HandleFunc("/", HomeHandler)
+  r.HandleFunc("/publish", PublishHandler)
+  r.HandleFunc("/user/kick/:uid", KickHandler)
+  r.HandleFunc("/user/logout/:authtoken", LogoutHandler)
+  r.HandleFunc("/user/channel/add/:channel/:uid", AddUserChannelHandler)
+  r.HandleFunc("/user/channel/remove/:channel/:uid", RemoveUserChannelHandler)
+  r.HandleFunc("channel/add/:channel", AddChannelHandler)
+  r.HandleFunc("health/check", HealthCheckHandler)
+  r.HandleFunc("channel/check/:channel", CheckChannelHandler)
+  r.HandleFunc("channel/remove/:channel", RemoveChannelHandler)
+  r.HandleFunc("user/presence-list/:uid/:uidList", SetUserPresenceHandler)
+  r.HandleFunc("debug/toggle", DebugToggleHandler)
+  r.HandleFunc("content/token/users", GetContentTokenHandler)
+  r.HandleFunc("content/token", SetContentTokenHandler)
+  r.HandleFunc("content/token/message", PublishMessageToContentChannelHandler)
+  r.HandleFunc("authtoken/channel/add/:channel/:authToken", AddAuthTokenChannelHandler)
+  r.HandleFunc("authtoken/channel/remove/:channel/:authToken", RemoveAuthTokenChannelHandler)
+
+  http.Handle("/", r)
+
+  http.ListenAndServe(":8080", nil)
+}</code></pre>
+
+<p>See arguments one and two in the various calls to HandleFunc? Argument one is the extension of the incoming web request (eg &ldquo;/publish&rdquo;) and argument two is the correlated function Pushie is told to run for this request (eg &ldquo;PublishHandler&rdquo;).</p>
+
+<p><b>Reading Messages from Web App</b></p>
+
+<p>As you can see in the router code, Pushie has a lot of functions. I chose to get started with PublishHandler, Pushie&rsquo;s core function: publishing those incoming messages from Web App.</p>
+
+<p>So how is Pushie going to do this? JSON decoding!</p>
+
+<p>The body of the incoming http request is JSON, and we&rsquo;ll need to decode that into something Pushie can use: a Go object.</p>
+
+<p>Check out this <a href="https://blog.golang.org/json-and-go" target="_blank">Go Blog</a> for a good overview of Go encoding &amp; decoding for JSON.</p>
+
+<p>A quick note for n00bs like myself: I&rsquo;m building Pushie from scratch, and often the function I&rsquo;m working on is meant to engage with other functions or incoming data that I haven&rsquo;t written, built, or set up yet. For instance, IRL Pushie will receive messages from Web App, but I don&rsquo;t have a Web App sending messages yet! To get around this when you&rsquo;re working on an incomplete app, you can hard code or &lsquo;fake&rsquo; certain thingsuntil you&rsquo;re further along. These serve as helpful placeholders for the real inputs you&rsquo;ll have later. In the code snippet below, you&rsquo;ll see for example I <em>create</em> a Go object called Message, then <em>encode</em> it to masquerade as an incoming http request, <em>then</em> I write a decoding function to respond to it. That&rsquo;s the function that&rsquo;ll eventually decode real incoming POST requests. It sounds pretty basic, but I didn&rsquo;t have a sense of this part of the process before I started writing my own code. I&rsquo;ll probably grow out of finding it so charming, but right now, I&rsquo;m going to spend my newbie points talking about what a great part of the programming process this is.</p>
+
+<p>So, here&rsquo;s my decoding function:</p>
+
+<pre><code>package main
+
+import (
+  "encoding/json"
+  "fmt"
+)
+
+// Create a mockup Message object.
+
+type Message struct {
+   Channel string
+   Data    map[string]interface{}
+}
+
+// Create mockup message.
+
+var decoded_message = Message{
+  Channel: "bunno",
+  Data: map[string]interface{} {
+    "message": map[string]string {"text": "oh hai", "username": "jufisch"},
+  },
+}
+
+// Here's where I encode the mockup message to get something I can work with for now that mimics a JSon POST request.
+
+var encoded_message, err = json.Marshal(decoded_message)
+
+// This is the function that decodes incoming messages.
+
+func decode_message(encodedmessage []byte) Message {
+  var decodedmessage Message
+  json.Unmarshal(encodedmessage, &decodedmessage)
+
+  return decodedmessage
+}</code></pre>
+
+<p><b>Hash Lookups &amp; Sending Messages</b></p>
+
+<p>I spent the last part of <i>Pushie Day One: Publish Message</i> fleshing out Pushie&rsquo;s channel lookup function. After reading the message to find out what channel it&rsquo;s for, Pushie looks up that channel and finds out which clients are in there.</p>
+
+<p>As part of the Authentication and Authorization processes (yet another future post), Pushie will keep track of which users are currently logged in on each channel. It stores that data in a hash, or in Go speak, a map. They&rsquo;re very exciting data structures. You can try them out in the <a href="https://tour.golang.org/moretypes/19" target="_blank"> Tour of Go</a> or read more at the <a href="https://blog.golang.org/go-maps-in-action" target="_blank">Go Blog</a>.</p>
+
+<p>Events happen in the Web App. Maybe a user sent a chat message or a timer went off. When the event happens, a message gets sent to Pushie. As you know, the data in the message includes which channel it&rsquo;s for.</p>
+
+<p>Remember the decoding of the incoming message JSON data? Once Pushie reads the message and gets the target channel for that message, it looks in its hash of channels until it finds channel &ldquo;bunno.&rdquo; For each <em>channel</em>, Pushie knows which clients are currently there. Quick n00b diversion: you&rsquo;ll hear maps referred to as key-value stores. In this case, &ldquo;bunno&rdquo; (ie channel name) is our key. We find the key and can then see its associated <em>values,</em> in this case clients.</p>
+
+<p>Like the fake web request in the encoding discussion, here I&rsquo;m faking the hash of channels by hard-coding it. When Pushie is further along, that will be a dynamic hash reflecting which users are currently logged in on which channels.</p>
+
+<pre><code>package main
+
+import (
+  "encoding/json"
+)
+
+// Here I create a Websocket type -- these are the 'values' being stored in the hash, referred to as clients in the blog post.
+
+type Websocket struct {
+  id int
+}
+
+// This creates some dummy socket objects -- IRL these will be generated based on who is currently listening on Pushie channels.
+
+var Socket1 = Websocket{
+  id: 1,
+}
+
+var Socket2 = Websocket{
+  id: 2,
+}
+
+var Socket3 = Websocket{
+  id: 3,
+}
+
+// Here I create a send method for Websocket obejcts. 
+
+func (s Websocket) Send(message []byte) error {
+  return nil
+}
+
+// Same as before, our function to decode encoded messages (ie JSON bytes in POST requests).
+
+func decode_message(encodedmessage []byte) Message {
+  var decodedmessage Message
+  json.Unmarshal(encodedmessage, &decodedmessage)
+
+  return decodedmessage
+}
+
+// Finally, here's our lookup function. It takes the current hash or map as its first argument, and the incoming message as its second argument. Next it reads the message object to get the correct channel, and looks that channel up in the hash.
+
+func channel_lookup(currentmap map[string][]Websocket, message Message) []Websocket{
+
+  target_sockets, ok := currentmap[message.Channel]
+  if !ok {
+    return []Websocket{}
+  }
+
+  return target_sockets
+}
+
+// This is fairly messy right now, so let's comment inside func main.
+ 
+func main() {
+
+  // I create a message using some JSON I cooked earlier.
+
+  message_json := []byte (`{"Channel":"bunno","Data":{"message":{"text":"oh hai","username":"jufisch"}}}`)
+
+  // I hardcode a hash of channels and sockets. Eventually this will be dynamically stored by Pushie as it keeps track of which clients are logging in.
+
+  channels_hash := make(map[string][]Websocket)
+  channels_hash["bunno"] = []Websocket{Socket1, Socket2}
+  channels_hash["quadrupal"] = []Websocket{Socket1, Socket2, Socket3}
+  channels_hash["thisisfine"] = []Websocket{}
+
+  // Here I call my decode message function. 
+  message := decode_message(message_json)
+
+  // Here's the lookedup. I call my channel_lookup function, passing it the hardcoded hash and the decoded message.
+
+  target_sockets := channel_lookup(channels_hash, message)
+
+  // Now that we know our 'target sockets', we iterate over them and call the send method on each one, to send the message to each client with an open socket for the channel!
+
+  for _, socket := range target_sockets {
+
+    socket.Send(encoded_message)
+
+  }
+
+}</code></pre>
+
+<p>And, scene.</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    <a href="https://twitter.com/jufisch">
+    <img class="avatar" src="https://julie.fischey-rando.com/images/avatar.png">
+    <div>
+        <span class="dark">Julie Fischer</span>
+        <span>I&#39;m the blogger.</span>
+    </div>
+    </a>
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjulie.fischey-rando.com%2fpost%2fpushie-server-01%2f - Push%20Notification%20Server%3a%20Part%2001 by @jufisch"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "spf13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/post/wait-but-why/">Wait But Why?<aside class="dates">Jul 17 2017</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/JuFisch">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/jufisch">
+        <i class="fa fa-twitter"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2017 Julie Fischer
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://julie.fischey-rando.com/js/main.js"></script>
+<script src="https://julie.fischey-rando.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
