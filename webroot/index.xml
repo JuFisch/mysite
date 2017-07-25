@@ -6,10 +6,21 @@
     <description>Recent content on Julie Fischer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Jul 2017 16:49:10 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 25 Jul 2017 14:26:12 -0400</lastBuildDate>
     
 	<atom:link href="https://julie.fischey-rando.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sad Shell Script 01</title>
+      <link>https://julie.fischey-rando.com/post/sad-shell-script-01/</link>
+      <pubDate>Tue, 25 Jul 2017 14:26:12 -0400</pubDate>
+      
+      <guid>https://julie.fischey-rando.com/post/sad-shell-script-01/</guid>
+      <description>Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&amp;rsquo;t really understand it correctly. So that&amp;rsquo;s a whole morning spent on something that didn&amp;rsquo;t really pan out.
+I wanted to accomplish something. Preferably in 30 seconds or less.
+So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:</description>
+    </item>
     
     <item>
       <title>Push Notification Server: Part 01</title>
