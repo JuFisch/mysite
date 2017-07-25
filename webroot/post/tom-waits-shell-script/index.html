@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Julie Fischer">
+
+<meta name="generator" content="Hugo 0.25.1" />
+<title>Tom Waits Shell Script</title>
+<link rel="shortcut icon" href="https://julie.fischey-rando.com/images/favicon.ico">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/style.css">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://julie.fischey-rando.com/index.xml" rel="alternate" type="application/rss+xml" title="Julie Fischer" />
+
+
+<meta property="og:title" content="Tom Waits Shell Script" />
+<meta property="og:description" content="Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.
+I wanted to accomplish something. Preferably in 30 seconds or less.
+So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://julie.fischey-rando.com/post/tom-waits-shell-script/" />
+
+
+
+<meta property="article:published_time" content="2017-07-25T14:26:12-04:00"/>
+<meta property="article:modified_time" content="2017-07-25T14:26:12-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Tom Waits Shell Script">
+<meta itemprop="description" content="Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.
+I wanted to accomplish something. Preferably in 30 seconds or less.
+So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:">
+
+
+<meta itemprop="dateModified" content="2017-07-25T14:26:12-04:00" />
+<meta itemprop="wordCount" content="112">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:text:title" content="Tom Waits Shell Script"/>
+<meta name="twitter:title" content="Tom Waits Shell Script"/>
+<meta name="twitter:description" content="Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.
+I wanted to accomplish something. Preferably in 30 seconds or less.
+So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:"/>
+<meta name="twitter:site" content="@https://www.twitter.com/jufisch"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://julie.fischey-rando.com/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+
+	
+		<a class="cta" href="https://julie.fischey-rando.com/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Tom Waits Shell Script</h1>
+        <h2 class="headline">
+        July 25, 2017
+        <br>
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.</p>
+
+<p>I wanted to accomplish something. Preferably in 30 seconds or less.</p>
+
+<p>So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:</p>
+
+<pre><code>#!/bin/bash
+
+open https://www.youtube.com/results?search_query=tom+waits</code></pre>
+
+<p>Now I can open my Terminal and type &ldquo;tom&rdquo; for a soul-cleansing flood of whiskey references, glitter-tossing and gritty mumbling. Other than my own.</p>
+
+<p>Thanks, Tom.</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/h3zZwabTD58" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
+ </div>
+
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    <a href="https://twitter.com/jufisch">
+    <img class="avatar" src="https://julie.fischey-rando.com/images/avatar.png">
+    <div>
+        <span class="dark">Julie Fischer</span>
+        <span>I&#39;m the blogger.</span>
+    </div>
+    </a>
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjulie.fischey-rando.com%2fpost%2ftom-waits-shell-script%2f - Tom%20Waits%20Shell%20Script by @jufisch"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "spf13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/post/pushie-server-01/">Creating a Push Notification Server: Overview<aside class="dates">Jul 20 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/wait-but-why/">Wait But Why?<aside class="dates">Jul 17 2017</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/JuFisch">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/jufisch">
+        <i class="fa fa-twitter"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2017 Julie Fischer
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://julie.fischey-rando.com/js/main.js"></script>
+<script src="https://julie.fischey-rando.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

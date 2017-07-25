@@ -83,23 +83,22 @@ h2 {
 
 .profile #avatar {
 	display: inline-block;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
+	width: 180px;
+	height: 180px;
 	margin-bottom: 20px;
 }
 
 .profile h1 {
 	font-weight: 400;
 	letter-spacing: 0px;
-	font-size: 20px;
-	color: #222;
+	font-size: 32px;
+	color: #4abdb9;
 }
 
 .profile h2 {
 	font-size: 20px;
 	  font-weight: 300;
-	  color: #aaa;
+	  color: #bbb;
 	  margin-top: 10px;
 	  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	  font-style: normal;

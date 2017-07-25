@@ -13,7 +13,7 @@ disqusShortname = "spf13"
 [params]
         name = "Julie Fischer"
         description = ""
-        bio = "A Code to Learn Blog"
+        bio = "Coding to Learn"
         # Enter optionally your twitter account
         twitter = "jufisch"
         enableRSS = true
