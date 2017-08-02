@@ -6,10 +6,20 @@
     <description>Recent content on Julie Fischer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jul 2017 14:26:12 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 02 Aug 2017 14:49:53 -0400</lastBuildDate>
     
 	<atom:link href="https://julie.fischey-rando.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Merge #115: My First Pull Request!</title>
+      <link>https://julie.fischey-rando.com/post/my-first-pull-request/</link>
+      <pubDate>Wed, 02 Aug 2017 14:49:53 -0400</pubDate>
+      
+      <guid>https://julie.fischey-rando.com/post/my-first-pull-request/</guid>
+      <description>This is a big deal for me: I had my first pull request merged! Confession: it was a Docs fix, but hey, I was still celebrating.
+It&amp;rsquo;s a tiny 6 line diff, adding a step to Hugo&amp;rsquo;s Contributor Guide. (Hugo is an awesome blog generator written in Go, and it&amp;rsquo;s also powering this blog. I love working with it, so I started hunting around their repos for an opportunity to make a contribution.</description>
+    </item>
     
     <item>
       <title>Tom Waits Shell Script</title>

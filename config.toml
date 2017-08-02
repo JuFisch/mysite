@@ -9,7 +9,7 @@ theme = "hugo-cactus-theme"
 googleAnalytics = ""
 # Disable comments by leaving disqusShortname empty
 disqusShortname = "spf13"
-
+#paginate = 2
 [params]
         name = "Julie Fischer"
         description = ""

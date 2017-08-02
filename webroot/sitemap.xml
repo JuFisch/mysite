@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://julie.fischey-rando.com/post/my-first-pull-request/</loc>
+    <lastmod>2017-08-02T14:49:53-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://julie.fischey-rando.com/post/tom-waits-shell-script/</loc>
     <lastmod>2017-07-25T14:26:12-04:00</lastmod>
   </url>
@@ -24,13 +29,13 @@
   
   <url>
     <loc>https://julie.fischey-rando.com/</loc>
-    <lastmod>2017-07-25T14:26:12-04:00</lastmod>
+    <lastmod>2017-08-02T14:49:53-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://julie.fischey-rando.com/post/</loc>
-    <lastmod>2017-07-25T14:26:12-04:00</lastmod>
+    <lastmod>2017-08-02T14:49:53-04:00</lastmod>
     <priority>0</priority>
   </url>
   

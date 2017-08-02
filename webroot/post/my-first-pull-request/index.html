@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Julie Fischer">
+
+<meta name="generator" content="Hugo 0.26-DEV" />
+<title>Merge #115: My First Pull Request!</title>
+<link rel="shortcut icon" href="https://julie.fischey-rando.com/images/favicon.ico">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/style.css">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://julie.fischey-rando.com/index.xml" rel="alternate" type="application/rss+xml" title="Julie Fischer" />
+
+
+<meta property="og:title" content="Merge #115: My First Pull Request!" />
+<meta property="og:description" content="This is a big deal for me: I had my first pull request merged! Confession: it was a Docs fix, but hey, I was still celebrating.
+It&rsquo;s a tiny 6 line diff, adding a step to Hugo&rsquo;s Contributor Guide. (Hugo is an awesome blog generator written in Go, and it&rsquo;s also powering this blog. I love working with it, so I started hunting around their repos for an opportunity to make a contribution." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://julie.fischey-rando.com/post/my-first-pull-request/" />
+
+
+
+<meta property="article:published_time" content="2017-08-02T14:49:53-04:00"/>
+<meta property="article:modified_time" content="2017-08-02T14:49:53-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Merge #115: My First Pull Request!">
+<meta itemprop="description" content="This is a big deal for me: I had my first pull request merged! Confession: it was a Docs fix, but hey, I was still celebrating.
+It&rsquo;s a tiny 6 line diff, adding a step to Hugo&rsquo;s Contributor Guide. (Hugo is an awesome blog generator written in Go, and it&rsquo;s also powering this blog. I love working with it, so I started hunting around their repos for an opportunity to make a contribution.">
+
+
+<meta itemprop="dateModified" content="2017-08-02T14:49:53-04:00" />
+<meta itemprop="wordCount" content="654">
+
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Merge #115: My First Pull Request!"/>
+<meta name="twitter:description" content="This is a big deal for me: I had my first pull request merged! Confession: it was a Docs fix, but hey, I was still celebrating.
+It&rsquo;s a tiny 6 line diff, adding a step to Hugo&rsquo;s Contributor Guide. (Hugo is an awesome blog generator written in Go, and it&rsquo;s also powering this blog. I love working with it, so I started hunting around their repos for an opportunity to make a contribution."/>
+<meta name="twitter:site" content="@https://www.twitter.com/jufisch"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://julie.fischey-rando.com/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+
+	
+		<a class="cta" href="https://julie.fischey-rando.com/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Merge #115: My First Pull Request!</h1>
+        <h2 class="headline">
+        August 2, 2017
+        <br>
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>This is a big deal for me: I had my first <a href="https://github.com/gohugoio/hugoDocs/pull/115" target="_blank">pull request</a> merged! Confession: it was a Docs fix, but hey, I was still celebrating.</p>
+
+<p>It&rsquo;s a tiny 6 line diff, adding a step to Hugo&rsquo;s Contributor Guide. (Hugo is an awesome blog generator written in Go, and it&rsquo;s also powering this blog. I love working with it, so I started hunting around their repos for an opportunity to make a contribution.) Since it was merged yesterday, someone has already commented with a suggestion to turn it into something even better than what I added. This is also excellent: the gears of open source improvement keep churning, and if I get ambitious later, it&rsquo;s an opportunity for commit #2!</p>
+
+<p>I probably sound painfully overly-enthusiastic about this, but it&rsquo;s super motivating because it&rsquo;s been a long time coming. I have wanted to get something commited to an open source project since 2015, when I got to spend some time in the Drupal Community through my work as a UX Researcher. It was a surprisingly long road, so I want to start off this post with some cheerleading: if you keep trying, you will GET there, newbie code contributor. Here are some thoughts I hope might help spur you on if you&rsquo;re also a beginner with big OSS dreams:</p>
+
+<p><b>Practice Git</b></p>
+
+<p>I finally started feeling comfortable with Git a few months ago, and it made my first code contribution that much easier. Git is basically the vehicle that&rsquo;s going to deliver your lovely new commit, so, you need to learn how to drive it first. Each open source project will have instructions for contributors, outlining their preferred process for code contributions. More on Git later.</p>
+
+<p>A great way to practice is by opening a <a href="https://github.com" target="_blank">GitHub account</a> and posting your personal projects there, using git commands in the terminal. The real power of git is for collaboration between multiple programmers, but you can learn a lot just by pushing your personal projects up to GitHub from your laptop.</p>
+
+<p><b>Docs Are Cool, Too</b></p>
+
+<p>I got a really nice message from the Hugo contributor who merged my pull request, noting that making changes to a projects&rsquo; documention (aka &lsquo;docs&rsquo;) is a classical first commmit for n00bs. I would <em>highly</em> recommend it.</p>
+
+<p>In my case, I was following the page for new development contributors, and realized that I hit a snag that wasn&rsquo;t mentioned in the documentation. I was able to work around it using a combination of terminal error output, help from a mentor, and a quick read-up on Go dependencies, but it seemed like something other beginners to Go could get hung up on.</p>
+
+<p>Half the battle is recognizing that whatever you were able to yak-shave your way out of might benefit others who encounter the same problem. As you read documentation, keep an eye out for unspoken assumptions or detours you have to take from step-by-step instructions. That&rsquo;s some ideal contribution material!</p>
+
+<p><b>Read Other People&rsquo;s Code</b></p>
+
+<p>This is advice I was given as I was starting out on this project, and it&rsquo;s definitely tied to your ability to be a programmer in general, and to your ability to be an open-source contributor specifically. Part of creating a patch for an existing project is being able to understand that project&rsquo;s code well enough to jump in and make a fix or improvement. That&rsquo;s pretty hard. I&rsquo;ve started to call it a win when I can even <em>understand</em> what&rsquo;s happening in other people&rsquo;s code.</p>
+
+<p>You can set the bar high, and strike out on GitHub seeking an issue to fix &amp; commit. <i>Or</i>, you could just spend some time reading your favorite project&rsquo;s public repos, with no goal in mind except working out what the code is doing and why it&rsquo;s done that way.</p>
+
+<p>I&rsquo;ll be counting the days till I&rsquo;m able to make a developer contribution to a project. Except another blog post when that day comes.</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    <a href="https://twitter.com/jufisch">
+    <img class="avatar" src="https://julie.fischey-rando.com/images/avatar.png">
+    <div>
+        <span class="dark">Julie Fischer</span>
+        <span>I&#39;m the blogger.</span>
+    </div>
+    </a>
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjulie.fischey-rando.com%2fpost%2fmy-first-pull-request%2f - Merge%20%23115%3a%20My%20First%20Pull%20Request%21 by @jufisch"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "spf13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/post/tom-waits-shell-script/">Tom Waits Shell Script<aside class="dates">Jul 25 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/pushie-server-01/">Creating a Push Notification Server: Overview<aside class="dates">Jul 20 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/wait-but-why/">Wait But Why?<aside class="dates">Jul 17 2017</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/JuFisch">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/jufisch">
+        <i class="fa fa-twitter"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2017 Julie Fischer
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://julie.fischey-rando.com/js/main.js"></script>
+<script src="https://julie.fischey-rando.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
