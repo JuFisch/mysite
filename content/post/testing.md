@@ -13,7 +13,7 @@ Writing tests alongside your main code provides you with something akin to a bui
 
 Testing also sets up a natural barrier for something I've discussed before: the need to 'fake' things that your code will eventually have access to - a hardcoded hash instead of something generated dynamically, or a web request I've written by hand rather than one sent by an actual web app. Establishing a test file gives you a natural place to store all these items. You can 'fake the world' in your test, so your code is much more aligned with the truth of what it will actually need to be. Then, you can slowly chip away at those 'fake' things in your test, or move away from the test paradigm at all and simply run your code in the final environment you're anticipating... if you've been testing well, the switch from running tests to running live should be far more of a table-cloth trick maneuver than a mess of broken dishes and dropped cutlery.
 
-![Gotta love a good tablecloth trick](img/tablecloth.gif)
+{{< figure src="/img/tablecloth.gif" title="Gotta love a good tablecloth trick." >}}
 
 Using the test tools included in Go's standard library has been delightful and very easy. I thought I would give a quick rundown here.
 

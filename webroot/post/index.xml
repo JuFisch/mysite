@@ -17,8 +17,8 @@
       <pubDate>Sat, 05 Aug 2017 12:31:12 -0400</pubDate>
       
       <guid>https://julie.fischey-rando.com/post/testing/</guid>
-      <description>I&amp;rsquo;m forging ahead with Pushie, my real-time push notification server. The first step was setting up Gorilla Mux to handle routing. Once that was instituted, each route needs a handler function that implements the correct action.
-I started with PublishHandler, the function called when a web app sends a request to pushie at the URL path &amp;ldquo;/publish.&amp;rdquo; But once I really got started, I set up tests that I can use to ensure the development of each function goes smoothly.</description>
+      <description>I&amp;rsquo;m forging ahead with Pushie, my real-time push notification server. The first step was setting up Gorilla Mux to handle routing. Each route then has an associated handler function, which, when called, executes one of Pushie&amp;rsquo;s main functions.
+I decided to start by working out PublishHandler, the function called when a web app sends a request to pushie at the URL path &amp;ldquo;/publish.&amp;rdquo; Guess what it does? It publishes a message from the web app to any clients listening on that channel.</description>
     </item>
     
     <item>
