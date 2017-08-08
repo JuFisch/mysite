@@ -3,9 +3,19 @@ title: "Testing with httptest"
 date: 2017-08-05T12:31:12-04:00
 ---
 
-I'm forging ahead with Pushie, my real-time push notification server. The first step was setting up Gorilla Mux to handle routing. Once that was instituted, each route needs a handler function that implements the correct action.
+I'm forging ahead with Pushie, my real-time push notification server. The first step was setting up Gorilla Mux to handle routing. Each route then has an associated handler function, which, when called, executes one of Pushie's main functions.
 
-I started with PublishHandler, the function called when a web app sends a request to pushie at the URL path "/publish." But once I *really* got started, I set up tests that I can use to ensure the development of each function goes smoothly. At first I was hesitant to add more to what I was doing - I'd need to implement tests while also implementing my PublishHandler function. But in fact, tests are your friend. Making sure my program and my test work together forced me to bite of smaller, manageable steps, and to keep a running internal monologue about exactly what my function was doing and what it needed. It's awesome. Let's talk a little bit about testing in go.
+I decided to start by working out PublishHandler, the function called when a web app sends a request to pushie at the URL path "/publish." Guess what it does? It publishes a message from the web app to any clients listening on that channel. I thought I would just blow through each handler function one by one until Pushie was complete. But once I *really* got into the weeds of how each function worked, I discovered that a better second step to "just jump in with development" was "just jump in with tests that will help guide your development." 
+
+Ok, ok, in actual fact, I'm incredibly stubborn. I was initially *very* hesitant to stop the clear forge-ahead work of jamming through each handler function. Writing tests!? More work instead of less!? Surely that's going to slow me down and be fruitless. Thankfully, someone wiser than me encouraged me to get over my stubborn gut-instinct, and oh how right that person was!
+
+Writing tests alongside your main code provides you with something akin to a built-in sounding board. You must enumerate your goals in the test, and the test will - if written well - let you know if your code is meeting those goals or not. I like to think that if I was attacking the code without tests, I would do so by taking a systematic, step-by-step approach to what any given function needs to do. But instead of simply trusting that I'll do this, I can do my step-by-step thinking through of functionality "out loud" in the test file instead. 
+
+Testing also sets up a natural barrier for something I've discussed before: the need to 'fake' things that your code will eventually have access to - a hardcoded hash instead of something generated dynamically, or a web request I've written by hand rather than one sent by an actual web app. Establishing a test file gives you a natural place to store all these items. You can 'fake the world' in your test, so your code is much more aligned with the truth of what it will actually need to be. Then, you can slowly chip away at those 'fake' things in your test, or move away from the test paradigm at all and simply run your code in the final environment you're anticipating... if you've been testing well, the switch from running tests to running live should be far more of a table-cloth trick maneuver than a mess of broken dishes and dropped cutlery.
+
+![Gotta love a good tablecloth trick](img/tablecloth.gif)
+
+Using the test tools included in Go's standard library has been delightful and very easy. I thought I would give a quick rundown here.
 
 <b>Go's Package "Testing"</b>
 
@@ -23,7 +33,7 @@ func PublishHandler(w http.ResponseWriter, req *http.Request) {
 ...
 }</code></pre>
 
-My test file is named Pushie_test.go, following the "_test.go" convention. It's in the *same* package as my code to tested (package main), and I've named a testing function TestPublishHandler to communicate with PublishHandler, again following the Testing package's convention:
+My test file is named Pushie_test.go, following the "_test.go" convention. It's in the *same* package as my code to test (package main), and I've named a testing function TestPublishHandler to communicate with PublishHandler, again following the Testing package's convention:
 
 <pre><code>package main
 
@@ -45,20 +55,21 @@ That's it! Now the code inside TestPublishHandler can be implemented to test Pub
 
 <b>Migrating Fakes to Tests</b>
 
-When I first started, I was 'faking' or 'mocking up' a bunch of hard-coded things like hashes of Pushie's channels and sockets, pretend socket objects, and an example message, because PublishHandler will eventually need to refer to those things but I didn't have them implemented yet (most of that info comes from the Web App, which doesn't exist yet.) One of the nice things about testing is that I can move all my 'fakes' or examples into the test file. It provides an high-level structure to work towards and to keep my code organized: get Pushie.go running just as it would in the live production scenario, and keep fake-out data in the test file. 
+When I first started, I was 'faking' or 'mocking up' a bunch of hard-coded things like hashes of Pushie's channels and sockets, pretend socket objects, and an example message, because PublishHandler will eventually need to refer to those things but I didn't have them implemented yet (most of that info comes from the Web App, which doesn't exist yet.) As mentioned above, one of the nice things about testing is that I can move all my 'fakes' or examples into the test file. It provides an obvious and useful way to keep my code organized: get Pushie.go running just as it would in the live production scenario, and keep fake-out data in the test file. 
 
-One reason this is good is that you can get a better test by changing some of those hard-coded items. For example, with Pushie, the fake message now lives in my test file. I can run the test to make sure the message sent by my test request is the same one mirrored back to me by Pushie in it's response, and then I can change the text of the message and run my test again to make sure changing messages don't break my Pushie code.
+Another reason this is helpful is that you can more rigorously use your tests to *test* because you can change some of the hardcoded data values you're passing. Perhaps you've hardcoded something to pass a value of "1." You *expect* it to be the same if you pass it "-1," but instead of futzing with your code file, you can alter some of the values in the test file to check those assumptions.  by changing some of those hard-coded items. In Pushie's case, the fake message now lives in my test file. I can run the test to make sure the message sent by my test request is the same one mirrored back to me by Pushie in it's response, and then I can change the text of the message and run my test again to make sure changing messages don't break my Pushie code.
 
 <b>fmt.Println Is Your Friend</b>
 
-Even thought the Go compiler offers a lot of helpful (let's say "helpful," even when it makes you want to scream) information when you've got something wrong in your code, I've found there's still no substitute for adding debugging information to your code and printing it to the screen so you can follow along with the action. I use fmt.Println *all* the time (just remember to import "fmt"). At one point I was printing out the full story of what was going on in Pushie, and all of the variable values, just so I could walk through my terminal output and get a feel for what was happening and why something wasn't working.
+The Go compiler offers a lot of helpful (let's say "helpful;" sometimes it makes you want to scream, but ultimately it is helpful) information when you've got something wrong in your code. Even so, I've found there's no substitute for adding debugging information to your code and printing it to the screen so you can follow along with the action. I used to code this way in Ruby and Javascript and it's just so informative when you're looking for issues. 
 
-The same holds true when you have tests set up: I just output that much more extra info from Pushie_test.go as I worked from failing to passing tests.
+In Go, that command is fmt.Println (this is akin to console.log in javascript or puts in Ruby). I use fmt.Println *all* the time - just remember to import "fmt". At one point I was printing out the full story of what was going on in Pushie, and all of the variable values, just so I could walk through my terminal output and get a feel for what was happening and why something wasn't working.
+
+The same holds true when you have tests set up: I just output that much more extra info from Pushie_test.go as I worked from failing to passing tests. I'm not sure this is a good practice or not, but I started indicating where the printed line was coming from to make it easier to follow along. Any fmt.Println statements in my main code began "Pushie.go says:" and those in the test files were labeled "Pushie_test.go says:..."
 
 <b>State of Pushie Update</b>
 
-So what is Pushie actually able to do now? Not tons, honestly. But I'm excited to have good clean test for PublishHandler that passes. I want to walk through the code a bit here. 
-
+So what is Pushie actually able to do now? Not tons, honestly. But I'm excited to have a good clean test for PublishHandler that passes. I want to walk through the code a bit here. 
 Here's a peek inside PublishHandler:
 
 <pre><code>func PublishHandler(w http.ResponseWriter, req *http.Request) {
@@ -110,9 +121,9 @@ Here's a peek inside PublishHandler:
 
 </code></pre>
 
-Right now, I have PublishMessage build two pieces of information into it's response (alongside the basic Content-Type header): the message text that was sent (m.Data) and the *number* of sockets that it sent the message to (sentCount). 
+Right now, I have PublishMessage build two pieces of information into its response (alongside the basic Content-Type header): the message text that was sent (m.Data) and the *number* of sockets that it sent the message to (sentCount). 
 
-Warning: There's a big cheat here, which I'm going to have to come back to later. Right now, sentCount is just set equal to len(sockets), the length of the list of socket objects stored as a value to the name of the channel (the key) in the channels hash. So basically, channels hash says "Hey there are three sockets in this channel) and PublishHandler says "ok, sentCount equals three!" Why is that cheating? Because sentCount doesn't *actually* count the number of sends (heyo!) When this is complete, sentCount will truly be a counter of the for loop that iterates through each socket and calls socket.Send. That way, if I try to send a message to Socket #2 of 5, and I get an error back, I can (a) return an error (b) use sentCount to show that it wasn't equal to the socket number in the channels hash, i.e. that it failed to send the message to the correct number of sockets.
+Warning: There's a big cheat here, which I'm going to have to come back to later. Right now, sentCount is just set equal to len(sockets), the length of the list of socket objects stored as a value to the name of the channel (the key) in the channels hash. So basically, channels hash says "Hey there are three sockets in this channel" and PublishHandler says "Ok, sentCount equals three!" Why is that cheating? Because sentCount doesn't *actually* count the number of sends. (Heyo!) When this is complete, sentCount will truly be a counter of the for loop that iterates through each socket and calls socket.Send. That way, if I try to send a message to Socket #2 of 5, and I get an error back, I can (a) return an error (b) use sentCount to show that it wasn't equal to the socket number in the channels hash, i.e. that it failed to send the message to the correct number of sockets.
 
 But I digress. Let's focus on the fact that PublishHandler sends a response including number of sockets it sent to and the message content. That let's me implement a test of PublishHandler that says "Make sure that we hear a response from PublishHandler that says it returned the # of sockets we know is in the channel, and the text of the message we asked it to send."
 
@@ -217,7 +228,7 @@ Once we have those things contstructed and established, we're ready to call Publ
 </ol>
 
 <br>
-Whew. One thing you might be wondering: why do I check both message text and message username, instead of simple all the message data stored in the hash. To be honest, this is a bit of a hack, because I was getting a slight mismatch of the type of message data between PublishHandler and TestPublishHandler (one was a map[string]interface{} and one was a map[string]string, so even though they had the same inner content, which is what we care about, the type was different and caused the tests to fail.)
+Whew. One thing you might be wondering: why do I check both message text and message username, instead of simply checking all the message data stored in the hash at one time? To be honest, this is a bit of a hack, because I was getting a slight mismatch of the type of message data between PublishHandler and TestPublishHandler (one was a map[string]interface{} and one was a map[string]string, so even though they had the same inner content, which is what we care about, the type was different and caused the tests to fail.)
 
 So that, in what would never even remotely fit inside a nutshell, is what I've been working on this week. 
 
