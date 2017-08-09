@@ -50,7 +50,7 @@ I decided to start by working out PublishHandler, the function called when a web
 
 
 <meta itemprop="dateModified" content="2017-08-05T12:31:12-04:00" />
-<meta itemprop="wordCount" content="2396">
+<meta itemprop="wordCount" content="2402">
 
 
 
@@ -99,7 +99,19 @@ I decided to start by working out PublishHandler, the function called when a web
 
 <p>Testing also sets up a natural barrier for something I&rsquo;ve discussed before: the need to &lsquo;fake&rsquo; things that your code will eventually have access to - a hardcoded hash instead of something generated dynamically, or a web request I&rsquo;ve written by hand rather than one sent by an actual web app. Establishing a test file gives you a natural place to store all these items. You can &lsquo;fake the world&rsquo; in your test, so your code is much more aligned with the truth of what it will actually need to be. Then, you can slowly chip away at those &lsquo;fake&rsquo; things in your test, or move away from the test paradigm at all and simply run your code in the final environment you&rsquo;re anticipating&hellip; if you&rsquo;ve been testing well, the switch from running tests to running live should be far more of a table-cloth trick maneuver than a mess of broken dishes and dropped cutlery.</p>
 
-<p><img src="img/tablecloth.gif" alt="Gotta love a good tablecloth trick" /></p>
+
+<figure >
+    
+        <img src="/img/tablecloth.gif" />
+    
+    
+    <figcaption>
+        <h4>Gotta love a good tablecloth trick.</h4>
+        
+    </figcaption>
+    
+</figure>
+
 
 <p>Using the test tools included in Go&rsquo;s standard library has been delightful and very easy. I thought I would give a quick rundown here.</p>
 
@@ -374,6 +386,10 @@ Whew. One thing you might be wondering: why do I check both message text and mes
 
     
     
+    
+        <li>
+            <a href="/post/fun-with-websockets/">Fun With Websockets<aside class="dates">Aug 9 2017</aside></a>
+        </li>
     
         <li>
             <a href="/post/my-first-pull-request/">Merge #115: My First Pull Request!<aside class="dates">Aug 2 2017</aside></a>

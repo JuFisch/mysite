@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Julie Fischer">
+
+<meta name="generator" content="Hugo 0.26-DEV" />
+<title>Fun With Websockets</title>
+<link rel="shortcut icon" href="https://julie.fischey-rando.com/images/favicon.ico">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/style.css">
+<link rel="stylesheet" href="https://julie.fischey-rando.com/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://julie.fischey-rando.com/index.xml" rel="alternate" type="application/rss+xml" title="Julie Fischer" />
+
+
+<meta property="og:title" content="Fun With Websockets" />
+<meta property="og:description" content="Another Pushie update! I&rsquo;m now in Week 4 of learning Go, and attempting to implement a Real-time Push Notification Server. Previously, I gave a quick overview of the project and discussed writing tests for the project with Go&rsquo;s testing tools.
+Today, I&rsquo;m excited to report I&rsquo;ve entered the wild world of websockets - real ones, not Websocket objects which I shamelessly faked in order to focus on the logic of my handler functions." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://julie.fischey-rando.com/post/fun-with-websockets/" />
+
+
+
+<meta property="article:published_time" content="2017-08-09T17:30:08-04:00"/>
+<meta property="article:modified_time" content="2017-08-09T17:30:08-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Fun With Websockets">
+<meta itemprop="description" content="Another Pushie update! I&rsquo;m now in Week 4 of learning Go, and attempting to implement a Real-time Push Notification Server. Previously, I gave a quick overview of the project and discussed writing tests for the project with Go&rsquo;s testing tools.
+Today, I&rsquo;m excited to report I&rsquo;ve entered the wild world of websockets - real ones, not Websocket objects which I shamelessly faked in order to focus on the logic of my handler functions.">
+
+
+<meta itemprop="dateModified" content="2017-08-09T17:30:08-04:00" />
+<meta itemprop="wordCount" content="969">
+
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Fun With Websockets"/>
+<meta name="twitter:description" content="Another Pushie update! I&rsquo;m now in Week 4 of learning Go, and attempting to implement a Real-time Push Notification Server. Previously, I gave a quick overview of the project and discussed writing tests for the project with Go&rsquo;s testing tools.
+Today, I&rsquo;m excited to report I&rsquo;ve entered the wild world of websockets - real ones, not Websocket objects which I shamelessly faked in order to focus on the logic of my handler functions."/>
+<meta name="twitter:site" content="@https://www.twitter.com/jufisch"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://julie.fischey-rando.com/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+
+	
+		<a class="cta" href="https://julie.fischey-rando.com/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Fun With Websockets</h1>
+        <h2 class="headline">
+        August 9, 2017
+        <br>
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>Another Pushie update! I&rsquo;m now in Week 4 of learning Go, and attempting to implement a Real-time Push Notification Server. Previously, I gave a quick overview of the project and discussed writing tests for the project with Go&rsquo;s testing tools.</p>
+
+<p>Today, I&rsquo;m excited to report I&rsquo;ve entered the wild world of websockets - real ones, not Websocket objects which I shamelessly faked in order to focus on the logic of my handler functions.</p>
+
+<p>If you&rsquo;re new to websockets, you might enjoy perusing <a href="https://tools.ietf.org/html/rfc6455" target="_blank">The WebSocket Protocol</a> over at the IETF site. This helped me get a handle on the basic concept: websockets are initiated with a client / server handshake, and can then be used to send messages back and forth (websockets allow bidirectionality) between client and server. Great.</p>
+
+<p>In order to start working with websockets, you&rsquo;ll need to decide which websocket package to use. While Go has its own <a href="https://godoc.org/golang.org/x/net/websocket" target="_blank">&lsquo;package websocket&rsquo;</a> at golang.org/x/net/websocket, the documentation for it actually recommends using <a href="https://godoc.org/github.com/gorilla/websocket" target="_blank">Gorilla&rsquo;s more actively maintained package</a>.</p>
+
+<p>After a few days of futzing with code and the concepts behind websocket communication, I&rsquo;ve arrived at a kind of exciting situation. Cue diagram!</p>
+
+<p><img src="/img/Pushie02.png" alt="This is a new Pushie diagram" /></p>
+
+<p>Here&rsquo;s a lovely new rendition of my original Pushie diagram to help me illustrate what I have now. That is:</p>
+
+<p><b>Pushie&rsquo;s HandlerFuncs are Working!</b></p>
+
+<p>Over in Pushie (top left), I now have a WebsocketHandler that looks like this.</p>
+
+<pre><code>func WebsocketHandler(w http.ResponseWriter, r *http.Request) {
+
+    // Get a connection to a websocket by calling Upgrade on the web request r
+    conn, err := upgrader.Upgrade(w, r, nil)
+    if err != nil {
+        fmt.Println("ERROR ->", err)
+        return
+    }
+
+    // Establish a Websocket object (defined above) to work with.
+
+    socket := Websocket{
+        connection: conn,
+    }
+
+    // Create loop to check for control messages.
+    for {
+        msgType, msg, err := conn.ReadMessage()
+
+        if err != nil {
+            conn.Close()
+            return
+        }
+
+        if msgType == websocket.PingMessage {
+            fmt.Println(msg)
+            continue
+        }
+        // Message type is invalid, we don't expect clients to send us anything.
+        conn.Close()
+        return
+    }
+}</code></pre>
+
+<p>Cool! And how does WebsocketHandler get called? I&rsquo;m glad you asked!</p>
+
+<p><b>Javascript Client</b></p>
+
+<p>I quickly did up an Index.html page with Javascript that mimics the request behavior I need. (You can read up on how to work with Websockets in Javascript <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications" target="_blank">here</a> - it&rsquo;s incredibly easy!)</p>
+
+<p>My script lives inside a myWebsocketStart function, which is called with a button onclick action. Here&rsquo;s the script tag contents:</p>
+
+<pre><code>function myWebsocketStart() {
+      // Using ws: instead of http: implicitly requests an upgrade to websocket
+      var ws = new WebSocket("ws://localhost:8080/websocket");
+
+      ws.onopen = function (evt) {
+
+        var myTextArea = document.getElementById("textarea1");
+        myTextArea.value = myTextArea.value + "You're connected to Pushie!"
+      };
+
+      ws.onmessage = function (evt) {
+        var myTextArea = document.getElementById("textarea1");
+        myTextArea.value = myTextArea.value + "\n" + evt.data
+      };
+
+      ws.onclose = function (evt) {
+        var myTextArea = document.getElementById("textarea1");
+        myTextArea.value = myTextArea.value + "\n" + "Pushie connection closed."
+      };
+
+    }
+  </code></pre>
+
+<p>When I hit &ldquo;Subscribe,&rdquo; the myWebsocketScript sends out a websocket request (denoted with &ldquo;ws://&hellip;&rdquo; instead of &ldquo;http(s)://&hellip;&ldquo;) to the URL path for WebsocketHandler. As you can see in the ws.onopen function, right now I have it print &ldquo;You&rsquo;re connected to Pushie!&rdquo; in a text area on the page to signal that the websocket was opened successfully.</p>
+
+<p><b>The Joy of Curling</b></p>
+
+<p>And last but not least, it&rsquo;s a throwback to remembering the way Pushie is meant to function. The client asks for a websocket connection to Pushie, but Pushie does nothing other than open that connection <em>until</em> the <i>Web App</i> provides Pushie with something to do. (Close readers may notice that I&rsquo;ve skipped the Authentication step that I&rsquo;ll want to do to allow sockets to open. I&rsquo;ll be tackling that out of order, a little bit later on.)</p>
+
+<p>I could certainly have set up a Ruby on Rails app or something like that (I hope to get Pushie working with RoR and Drupal down the road), in order to send messages to Pushie that Pushie then pushes down the socket to the client. But instead of side tracking myself for a day creating something like that, I can turn to my best friend, The Terminal.</p>
+
+<p>With the cURL command, I can craft a single command that sends out a web request to my URL of choice. That URL is my path for PublishMessage, &hellip;/publish.I want to send JSON data to PublishMessage just as a real web app would, and cURL&rsquo;s data flag (-d) allows you to handcraft your own data. You also need to express the Content-Type header, which, when you want JSON, is going to be application/json. All in all, the cURL command looks like this:</p>
+
+<pre><code>curl -d '{"Channel": "bunno", "Data": {"message": {"text":"oh hai", "username": "jufisch"}}}' -H "Content-Type: application/json" -X POST http://localhost:8080/publish</code></pre>
+
+<p>Sweet.</p>
+
+<p><b>Houston We Have Lift-off</b></p>
+
+<p>Once all three things are in place, I walk through the following process:</p>
+
+<p>(1) I run ./pushie, the compiled Pushie binary, in Terminal Window 1. That runs the ListenAndServe server in Func Main, waiting for action.</p>
+
+<p>(2) I open the Index.html file that contains my websockets javascript in my browser. To initiate a websocket connection, I hit the &ldquo;Subscribe&rdquo; button and send out the ws:// request to localhost:8080/websocket. This calls my WebsocketHandler function. &ldquo;You&rsquo;re connected to Pushie!&rdquo; appears in my browser page, powered by javascript. There&rsquo;s some debugging comments that print out in Terminal Window 1 as well, that I embedded in WebsocketHandler to follow along as it&rsquo;s called.</p>
+
+<p>(3) In Terminal Window 2, I load up my cURL command and run it. I see more debugging info in Terminal Window 1, which is now coming from PublishHandler, which was called by the cURL request. And then, the real moment of excitement, I get the data that I place in PublishHandler&rsquo;s response writers printed out in Terminal Window 2, to let me know that my request was succesful and yieled a response.</p>
+
+<p>Boom! That is surprisingly thrilling. And that&rsquo;s also all for now.</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    <a href="https://twitter.com/jufisch">
+    <img class="avatar" src="https://julie.fischey-rando.com/images/avatar.png">
+    <div>
+        <span class="dark">Julie Fischer</span>
+        <span>I&#39;m the blogger.</span>
+    </div>
+    </a>
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjulie.fischey-rando.com%2fpost%2ffun-with-websockets%2f - Fun%20With%20Websockets by @jufisch"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "spf13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/post/testing/">Testing with httptest<aside class="dates">Aug 5 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/my-first-pull-request/">Merge #115: My First Pull Request!<aside class="dates">Aug 2 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/tom-waits-shell-script/">Tom Waits Shell Script<aside class="dates">Jul 25 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/pushie-server-01/">Creating a Push Notification Server: Overview<aside class="dates">Jul 20 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/wait-but-why/">Wait But Why?<aside class="dates">Jul 17 2017</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/JuFisch">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/jufisch">
+        <i class="fa fa-twitter"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2017 Julie Fischer
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://julie.fischey-rando.com/js/main.js"></script>
+<script src="https://julie.fischey-rando.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
