@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://julie.fischey-rando.com/post/text-parsing-with-go/</loc>
+    <lastmod>2017-08-28T10:43:59-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://julie.fischey-rando.com/post/fun-with-websockets/</loc>
     <lastmod>2017-08-09T17:30:08-04:00</lastmod>
   </url>
@@ -39,13 +44,13 @@
   
   <url>
     <loc>https://julie.fischey-rando.com/</loc>
-    <lastmod>2017-08-09T17:30:08-04:00</lastmod>
+    <lastmod>2017-08-28T10:43:59-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://julie.fischey-rando.com/post/</loc>
-    <lastmod>2017-08-09T17:30:08-04:00</lastmod>
+    <lastmod>2017-08-28T10:43:59-04:00</lastmod>
     <priority>0</priority>
   </url>
   

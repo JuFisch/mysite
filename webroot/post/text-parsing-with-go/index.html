@@ -7,7 +7,7 @@
 <meta name="author" content="Julie Fischer">
 
 <meta name="generator" content="Hugo 0.26-DEV" />
-<title>Tom Waits Shell Script</title>
+<title>Text Parsing With Go</title>
 <link rel="shortcut icon" href="https://julie.fischey-rando.com/images/favicon.ico">
 <link rel="stylesheet" href="https://julie.fischey-rando.com/css/style.css">
 <link rel="stylesheet" href="https://julie.fischey-rando.com/css/highlight.css">
@@ -21,21 +21,15 @@
 <link href="https://julie.fischey-rando.com/index.xml" rel="alternate" type="application/rss+xml" title="Julie Fischer" />
 
 
-<meta property="og:title" content="Tom Waits Shell Script" />
-<meta property="og:description" content="Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.
-I wanted to accomplish something. Preferably in 30 seconds or less.
-So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:" />
+<meta property="og:title" content="Text Parsing With Go" />
+<meta property="og:description" content="It&#39;s been quite a while since I&#39;ve posted. A few weeks ago I switched to a new type of Go project after feeling powerlessly furious at most of the goings on in the Trump adminstration. I was so enraged by the President’s response to fascist ideology that I had to do something to defuse my own rage. Since I worry about Trump&#39;s tweet-based approach to policy and his 140-character limit on morality, I decided I&#39;d like to chop Hannah Arendt&#39;s text &#34;" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://julie.fischey-rando.com/post/tom-waits-shell-script/" />
+<meta property="og:url" content="https://julie.fischey-rando.com/post/text-parsing-with-go/" />
 
 
 
-<meta property="article:published_time" content="2017-07-25T14:26:12-04:00"/>
-<meta property="article:modified_time" content="2017-07-25T14:26:12-04:00"/>
-
-
-
-
+<meta property="article:published_time" content="2017-08-28T10:43:59-04:00"/>
+<meta property="article:modified_time" content="2017-08-28T10:43:59-04:00"/>
 
 
 
@@ -45,23 +39,23 @@ So I wrote a tiny shell script that opens YouTube with a pre-filled search query
 
 
 
-<meta itemprop="name" content="Tom Waits Shell Script">
-<meta itemprop="description" content="Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.
-I wanted to accomplish something. Preferably in 30 seconds or less.
-So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:">
 
 
-<meta itemprop="dateModified" content="2017-07-25T14:26:12-04:00" />
-<meta itemprop="wordCount" content="112">
+
+
+<meta itemprop="name" content="Text Parsing With Go">
+<meta itemprop="description" content="It&#39;s been quite a while since I&#39;ve posted. A few weeks ago I switched to a new type of Go project after feeling powerlessly furious at most of the goings on in the Trump adminstration. I was so enraged by the President’s response to fascist ideology that I had to do something to defuse my own rage. Since I worry about Trump&#39;s tweet-based approach to policy and his 140-character limit on morality, I decided I&#39;d like to chop Hannah Arendt&#39;s text &#34;">
+
+
+<meta itemprop="dateModified" content="2017-08-28T10:43:59-04:00" />
+<meta itemprop="wordCount" content="210">
 
 
 
 <meta itemprop="keywords" content="" />
 
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Tom Waits Shell Script"/>
-<meta name="twitter:description" content="Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.
-I wanted to accomplish something. Preferably in 30 seconds or less.
-So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:"/>
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Text Parsing With Go"/>
+<meta name="twitter:description" content="It&#39;s been quite a while since I&#39;ve posted. A few weeks ago I switched to a new type of Go project after feeling powerlessly furious at most of the goings on in the Trump adminstration. I was so enraged by the President’s response to fascist ideology that I had to do something to defuse my own rage. Since I worry about Trump&#39;s tweet-based approach to policy and his 140-character limit on morality, I decided I&#39;d like to chop Hannah Arendt&#39;s text &#34;"/>
 <meta name="twitter:site" content="@https://www.twitter.com/jufisch"/>
 
 
@@ -84,33 +78,23 @@ So I wrote a tiny shell script that opens YouTube with a pre-filled search query
         
 <article class="post">
     <header>
-        <h1>Tom Waits Shell Script</h1>
+        <h1>Text Parsing With Go</h1>
         <h2 class="headline">
-        July 25, 2017
+        August 28, 2017
         <br>
         
         </h2>
     </header>
     <section id="post-body">
-        <p>Today I got sad because I thought I understood something about $GOPATH and $PATH variables, so I spent a bunch of time trying to articulate it in writing, and then discovered in the process that I didn&rsquo;t really understand it correctly. So that&rsquo;s a whole morning spent on something that didn&rsquo;t really pan out.</p>
+        It's been quite a while since I've posted. A few weeks ago I switched to a new type of Go project after feeling powerlessly furious at most of the goings on in the Trump adminstration. I was so enraged by the President’s response to fascist ideology that I had to do something to defuse my own rage. 
 
-<p>I wanted to accomplish something. Preferably in 30 seconds or less.</p>
+Since I  worry about Trump's tweet-based approach to policy and his 140-character limit on morality, I decided I'd like to chop Hannah Arendt's text "The Origins of Totalitarianism" into tweetable pieces. Just to put it into the Twittersphere to stand there in opposition to the garbage the President sees fit to spew into it.
 
-<p>So I wrote a tiny shell script that opens YouTube with a pre-filled search query for Tom Waits:</p>
+I'd like to broaden the scope of this project a bit and create a library / instructions for other people who might like to do something similar with other books you'd like to see the President engage with. Orwell's "1984" is also available in full text online, for instance.
 
-<pre><code>#!/bin/bash
+I'm still working on an impossible-to-get-my-head-around problem finding footnotes embedded within the text, so for the sake of saving time, I'll link to the repo <a href="https://github.com/JuFisch/twitter" target="_blank">here</a> rather than share code snippets. Suffice it to say: footnotes, I used to love you, but now you are dead to me.
 
-open https://www.youtube.com/results?search_query=tom+waits</code></pre>
-
-<p>Now I can open my Terminal and type &ldquo;tom&rdquo; for a soul-cleansing flood of whiskey references, glitter-tossing and gritty mumbling. Other than my own.</p>
-
-<p>Thanks, Tom.</p>
-
-
-<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/h3zZwabTD58" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
- </div>
-
+Stay tuned!
 
     </section>
 </article>
@@ -124,7 +108,7 @@ open https://www.youtube.com/results?search_query=tom+waits</code></pre>
     </div>
     </a>
     <section id="sharing">
-        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjulie.fischey-rando.com%2fpost%2ftom-waits-shell-script%2f - Tom%20Waits%20Shell%20Script by @jufisch"><span class="icon-twitter"> tweet</span></a>
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fjulie.fischey-rando.com%2fpost%2ftext-parsing-with-go%2f - Text%20Parsing%20With%20Go by @jufisch"><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(
@@ -165,10 +149,6 @@ open https://www.youtube.com/results?search_query=tom+waits</code></pre>
     
     
         <li>
-            <a href="/post/text-parsing-with-go/">Text Parsing With Go<aside class="dates">Aug 28 2017</aside></a>
-        </li>
-    
-        <li>
             <a href="/post/fun-with-websockets/">Fun With Websockets<aside class="dates">Aug 9 2017</aside></a>
         </li>
     
@@ -178,6 +158,10 @@ open https://www.youtube.com/results?search_query=tom+waits</code></pre>
     
         <li>
             <a href="/post/my-first-pull-request/">Merge #115: My First Pull Request!<aside class="dates">Aug 2 2017</aside></a>
+        </li>
+    
+        <li>
+            <a href="/post/tom-waits-shell-script/">Tom Waits Shell Script<aside class="dates">Jul 25 2017</aside></a>
         </li>
     
         <li>

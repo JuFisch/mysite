@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Julie Fischer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Aug 2017 17:30:08 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 28 Aug 2017 10:43:59 -0400</lastBuildDate>
     
 	<atom:link href="https://julie.fischey-rando.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Text Parsing With Go</title>
+      <link>https://julie.fischey-rando.com/post/text-parsing-with-go/</link>
+      <pubDate>Mon, 28 Aug 2017 10:43:59 -0400</pubDate>
+      
+      <guid>https://julie.fischey-rando.com/post/text-parsing-with-go/</guid>
+      <description>It&#39;s been quite a while since I&#39;ve posted. A few weeks ago I switched to a new type of Go project after feeling powerlessly furious at most of the goings on in the Trump adminstration. I was so enraged by the President’s response to fascist ideology that I had to do something to defuse my own rage. Since I worry about Trump&#39;s tweet-based approach to policy and his 140-character limit on morality, I decided I&#39;d like to chop Hannah Arendt&#39;s text &#34;</description>
+    </item>
     
     <item>
       <title>Fun With Websockets</title>
